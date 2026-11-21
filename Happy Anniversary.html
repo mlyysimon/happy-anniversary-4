@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Happy Anniversary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Parisienne&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Caveat:wght@500;600&display=swap">
+<style>
+/* VOICE: tender, a private note from Mimi
+   IDEA: a sealed paper envelope on an autumn evening table
+   PICTURE: the envelope itself, then the invite it holds
+   COLOUR and TYPE: deep chestnut ground, kraft envelope, rust wax; Parisienne, Cormorant, Caveat
+   LAYOUT: one object centred on one screen */
+:root{color-scheme:dark;--ground:#2E1A13;--ink:#F6E7D3;--rust:#A8501F}
+*{box-sizing:border-box;min-width:0}
+[hidden]{display:none!important}
+html,body{margin:0;height:100%;overflow:hidden}
+body{background:radial-gradient(120% 90% at 50% 30%,#55301F 0%,#3A2117 45%,var(--ground) 100%) fixed;color:var(--ink);font:16px/1.5 'Cormorant Garamond',Georgia,serif;overflow-x:clip}
+
+/* ---------- envelope scene ---------- */
+.stage{position:fixed;inset:0;z-index:1;display:grid;place-items:center;align-content:center;gap:clamp(20px,4vh,34px);padding:16px;transition:opacity .7s ease,transform .7s ease}
+.stage.leave{opacity:0;transform:translateY(70px) scale(.94);pointer-events:none}
+.kicker{margin:0;font-family:'Parisienne',cursive;font-size:clamp(34px,8vw,50px);line-height:1.05;text-align:center;color:var(--ink);transition:opacity .4s}
+.env{--w:min(86vw,440px);position:relative;width:var(--w);height:calc(var(--w)*.66);padding:0;border:0;background:none;cursor:pointer;perspective:1200px;animation:nudge 3.6s ease-in-out infinite;-webkit-tap-highlight-color:transparent}
+.env:focus-visible{outline:2px dashed #F2C79A;outline-offset:10px;border-radius:12px}
+.open .env{animation:none}
+.back{position:absolute;inset:0;border-radius:10px;background:#B98657;box-shadow:0 34px 60px -24px rgba(0,0,0,.75)}
+.letter{position:absolute;left:7%;right:7%;top:6%;height:88%;z-index:2;border-radius:6px;background:#FBF5EC;box-shadow:0 2px 8px rgba(0,0,0,.18);display:flex;flex-direction:column;align-items:center;padding-top:9%;color:#4A2C1D;transition:transform .9s cubic-bezier(.2,.8,.2,1)}
+.letter b{font:700 calc(var(--w)*.024)/1 'Cormorant Garamond',serif;letter-spacing:.32em;text-transform:uppercase;color:var(--rust)}
+.letter i{font:400 calc(var(--w)*.1)/1.2 'Parisienne',cursive}
+.rise .letter{transform:translateY(-58%)}
+.pocket{position:absolute;inset:0;z-index:3;border-radius:10px;background:#E2C196;clip-path:polygon(0 0,50% 56%,100% 0,100% 100%,0 100%)}
+.pocket::after{content:"";position:absolute;inset:0;background:linear-gradient(#EED6B2,#E8CBA2);clip-path:polygon(0 100%,50% 50%,100% 100%)}
+.to{position:absolute;left:0;right:0;bottom:11%;z-index:4;margin:0;text-align:center;font:600 calc(var(--w)*.075)/1 'Caveat',cursive;color:#7A3F1C;transition:opacity .3s}
+.flap{position:absolute;left:0;right:0;top:0;height:60%;z-index:5;transform-origin:top center;transition:transform .7s cubic-bezier(.4,0,.2,1) .2s,z-index 0s .55s}
+.flap::before{content:"";position:absolute;inset:0;border-radius:10px 10px 0 0;background:linear-gradient(#D9AE7C,#CF9F69);clip-path:polygon(0 0,100% 0,50% 100%);transition:background 0s .55s}
+.open .flap{transform:rotateX(180deg);z-index:1}
+.open .flap::before{background:#C7965F}
+.seal{position:absolute;left:50%;top:60%;z-index:6;width:calc(var(--w)*.16);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#C8603A,#8C2D16 72%);box-shadow:0 4px 8px rgba(0,0,0,.4),inset 0 0 0 calc(var(--w)*.01) rgba(0,0,0,.14);transition:transform .35s ease,opacity .35s ease}
+.seal svg{width:44%;fill:#F3C9A6;opacity:.9}
+.open .seal{transform:translate(-50%,-50%) scale(1.5);opacity:0}
+.open .to,.open .hint,.open .kicker{opacity:0}
+.hint{margin:0;font:600 20px/1 'Caveat',cursive;color:#F2C79A;letter-spacing:.02em;animation:bob 1.8s ease-in-out infinite;transition:opacity .3s}
+@keyframes nudge{0%,80%,100%{transform:rotate(0)}85%{transform:rotate(-1.6deg)}90%{transform:rotate(1.6deg)}95%{transform:rotate(-.8deg)}}
+@keyframes bob{50%{transform:translateY(-4px);opacity:.7}}
+
+/* ---------- the invite ---------- */
+.wrap{position:fixed;inset:0;z-index:2;display:grid;place-items:center;align-content:center;gap:12px;padding:16px}
+.fit{position:relative;border-radius:6px;box-shadow:0 40px 80px -30px rgba(0,0,0,.8);transform-origin:50% 35%}
+.shown .fit{animation:unfold 1.2s cubic-bezier(.2,.8,.2,1) both}
+.again{opacity:0;transition:opacity .5s ease 1s}.shown .again{opacity:1}
+@keyframes unfold{0%{opacity:0;transform:perspective(1400px) translateY(-4vh) scale(.42) rotateX(-60deg)}25%{opacity:1}100%{opacity:1;transform:none}}
+.card{position:absolute;left:0;top:0;width:720px;height:1060px;transform-origin:top left;padding:26px;background:#FBF5EC;color:#4A2C1D;border-radius:6px;overflow:hidden}
+.card p,.card h1{margin:0}
+.doodle{position:absolute;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.f1{height:100%;border:1.5px solid var(--rust);border-radius:18px;padding:8px}
+.f2{height:100%;border:1px dashed #D9B48F;border-radius:12px;padding:44px 64px 40px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.eyebrow{margin-top:18px!important;font-size:15px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:var(--rust)}
+.card h1{margin-top:4px;font:400 82px/1.1 'Parisienne',cursive}
+.lede{margin-top:6px!important;max-width:460px;font-size:22px;font-style:italic;font-weight:500;line-height:1.35;color:#6B4A36}
+.div{display:flex;align-items:center;gap:14px;margin-top:26px;width:300px}.div span{flex:1;height:1px;background:#D9B48F}
+.date{margin-top:20px!important;padding:9px 26px;border-radius:999px;background:#F3E3CF;font-size:16px;font-weight:700;letter-spacing:.26em;text-transform:uppercase}
+.tl{margin-top:34px;width:100%;max-width:470px}
+.row{display:grid;grid-template-columns:112px 28px minmax(0,1fr);text-align:left;min-height:92px}
+.row:last-child{min-height:0}
+.time{font:600 30px/1 'Caveat',cursive;color:var(--rust);text-align:right;padding-right:14px;white-space:nowrap}
+.rail{display:flex;flex-direction:column;align-items:center}
+.dot{width:11px;height:11px;border-radius:50%;background:var(--rust);margin-top:8px}
+.dot.ring{width:9px;height:9px;border:1.5px solid var(--rust);background:#FBF5EC}
+.line{flex:1;width:1.5px;background:#E2C3A2;margin-top:4px}
+.what{padding:0 0 18px 10px}
+.what b{display:flex;align-items:center;flex-wrap:wrap;gap:4px 8px;font-size:25px;font-weight:700;line-height:1.15}
+.what em{font-size:19px;font-weight:500;color:#8A6A55}
+.what span{display:block;margin-top:3px;font-size:19px;font-weight:500;line-height:1.35;color:#6B4A36}
+.sign{margin-top:auto!important;font:600 34px/1.2 'Caveat',cursive;color:var(--rust)}
+.again{min-height:44px;padding:10px 22px;border:1px solid rgba(242,199,154,.45);border-radius:999px;background:transparent;color:#F2C79A;font:600 20px/1 'Caveat',cursive;cursor:pointer}
+.again:hover{background:rgba(242,199,154,.1)}.again:focus-visible{outline:2px solid #F2C79A;outline-offset:3px}
+
+/* ---------- falling leaves ---------- */
+.leaves{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0;opacity:0;transition:opacity 1.2s}
+.leaves.on{opacity:1}
+.leaves span{position:absolute;top:-60px;display:block;animation:fall linear infinite}
+.leaves svg{width:100%;height:auto;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+@keyframes fall{0%{transform:translate(0,0) rotate(0)}50%{transform:translate(40px,55vh) rotate(200deg)}100%{transform:translate(-20px,115vh) rotate(420deg)}}
+
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition-duration:0s!important;transition-delay:0s!important}.leaves{display:none}}
+</style>
+</head>
+<body>
+
+<div class="leaves" id="leaves" aria-hidden="true"></div>
+
+<main class="stage" id="stage">
+  <p class="kicker">A little something for you</p>
+  <button class="env" id="env" type="button" aria-label="Open your anniversary invitation">
+    <span class="back"></span>
+    <span class="letter" aria-hidden="true"><b>Four years of us</b><i>Happy Anniversary</i></span>
+    <span class="pocket"></span>
+    <span class="to" aria-hidden="true">For my love</span>
+    <span class="flap"></span>
+    <span class="seal" aria-hidden="true"><svg viewBox="0 0 24 22"><path d="M12 21 C 5 15, 2 11, 2 7.5 A4.5 4.5 0 0 1 12 5 A4.5 4.5 0 0 1 22 7.5 C 22 11, 19 15, 12 21 Z"/></svg></span>
+  </button>
+  <p class="hint">Tap the envelope to open</p>
+</main>
+
+<section class="wrap" id="wrap" hidden aria-label="Anniversary invitation">
+  <div class="fit" id="fit">
+    <article class="card" id="card">
+      <svg class="doodle" aria-hidden="true" width="64" height="70" viewBox="0 0 40 56" stroke="#A8501F" style="left:50px;top:52px;transform:rotate(-28deg);opacity:.85"><use href="#leaf"/></svg>
+      <svg class="doodle" aria-hidden="true" width="52" height="58" viewBox="0 0 40 56" stroke="#C98A4B" style="left:104px;top:88px;transform:rotate(18deg);opacity:.8"><use href="#leaf"/></svg>
+      <svg class="doodle" aria-hidden="true" width="64" height="70" viewBox="0 0 40 44" stroke="#A8501F" style="right:56px;top:60px;transform:rotate(14deg);opacity:.85"><use href="#acorn"/></svg>
+      <svg class="doodle" aria-hidden="true" width="58" height="80" viewBox="0 0 40 56" stroke="#C98A4B" style="left:54px;bottom:70px;transform:rotate(205deg);opacity:.8"><use href="#leaf"/></svg>
+      <svg class="doodle" aria-hidden="true" width="56" height="62" viewBox="0 0 40 44" stroke="#A8501F" style="right:60px;bottom:74px;transform:rotate(-16deg);opacity:.85"><use href="#acorn"/></svg>
+
+      <div class="f1"><div class="f2">
+        <svg aria-hidden="true" width="86" height="70" viewBox="0 0 64 52" fill="#FBF5EC" stroke="#A8501F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <ellipse cx="21" cy="34" rx="13" ry="15"/><ellipse cx="43" cy="34" rx="13" ry="15"/><ellipse cx="32" cy="34" rx="12" ry="16.5"/>
+          <path d="M32 18 C 32 13, 33 10, 37 8" fill="none"/><path d="M37 13 C 41 9, 46 11, 44 15" fill="none"/>
+          <path d="M32 7 C 28.5 4, 26 2.2, 26 0.8 A1.6 1.6 0 0 1 29 0.4 L32 2.6 L35 0.4 A1.6 1.6 0 0 1 38 0.8 C 38 2.2, 35.5 4, 32 7 Z" fill="#A8501F" stroke="none" transform="translate(-14 4) scale(0.9)"/>
+        </svg>
+        <p class="eyebrow">Four years of us</p>
+        <h1>Happy Anniversary</h1>
+        <p class="lede">You're invited on a little bay area adventure to celebrate November 24th, my love</p>
+        <div class="div" aria-hidden="true"><span></span><svg width="18" height="16" viewBox="0 0 24 22" fill="#A8501F"><use href="#heart"/></svg><span></span></div>
+        <p class="date">Sunday · November 22</p>
+
+        <div class="tl">
+          <div class="row"><p class="time">11:30 am</p><div class="rail"><div class="dot"></div><div class="line"></div></div>
+            <div class="what"><b>Be ready to drive to San Mateo</b><span>Lunch at Himawari, then a stroll through the Japanese Garden</span></div></div>
+          <div class="row"><p class="time">1:00 pm</p><div class="rail"><div class="dot ring"></div><div class="line"></div></div>
+            <div class="what"><b>Hillsdale <em>(optional)</em></b><span>A little shopping, if we feel like it</span></div></div>
+          <div class="row"><p class="time">4:00 pm</p><div class="rail"><div class="dot"></div><div class="line"></div></div>
+            <div class="what"><b>Public Glass</b><span>Making glass pumpkins!</span></div></div>
+          <div class="row"><p class="time">7:30 pm</p><div class="rail"><svg aria-hidden="true" width="15" height="14" viewBox="0 0 24 22" fill="#A8501F" style="margin-top:6px"><use href="#heart"/></svg></div>
+            <div class="what" style="padding-bottom:0"><b>Dinner at Nari <svg role="img" aria-label="One Michelin star" width="20" height="20" viewBox="0 0 24 24" fill="#A8501F"><path d="M12 2 L14.9 8.6 L22 9.3 L16.6 14 L18.2 21 L12 17.3 L5.8 21 L7.4 14 L2 9.3 L9.1 8.6 Z"/></svg></b><span>Trendy Thai dinner~</span></div></div>
+        </div>
+
+        <p class="sign">Love, Mimi</p>
+      </div></div>
+    </article>
+  </div>
+  <button class="again" id="again" type="button">Seal it &amp; open again</button>
+</section>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="leaf"><path d="M20 2 C 34 10, 38 28, 20 46 C 2 28, 6 10, 20 2 Z"/><path d="M20 6 V 54"/><path d="M20 18 L 28 12 M20 26 L 30 20 M20 34 L 29 29 M20 18 L 12 12 M20 26 L 10 20 M20 34 L 11 29"/></g>
+    <g id="acorn"><path d="M6 18 C 6 8, 34 8, 34 18 Z"/><path d="M11 13 L 15 17 M17 11 L 22 17 M24 11 L 28 16"/><path d="M20 9 C 20 5, 22 3, 25 2"/><path d="M9 18 C 9 32, 16 40, 20 42 C 24 40, 31 32, 31 18"/></g>
+    <path id="heart" d="M12 21 C 5 15, 2 11, 2 7.5 A4.5 4.5 0 0 1 12 5 A4.5 4.5 0 0 1 22 7.5 C 22 11, 19 15, 12 21 Z"/>
+  </defs>
+</svg>
+
+<script>
+{
+  const stage = document.getElementById('stage');
+  const env = document.getElementById('env');
+  const wrap = document.getElementById('wrap');
+  const fit = document.getElementById('fit');
+  const card = document.getElementById('card');
+  const leaves = document.getElementById('leaves');
+  const again = document.getElementById('again');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let busy = false;
+
+  const size = () => {
+    const s = Math.min(1, (window.innerWidth - 32) / 720, (window.innerHeight - 32 - 56) / 1060);
+    fit.style.width = (720 * s) + 'px';
+    fit.style.height = (1060 * s) + 'px';
+    card.style.transform = 'scale(' + s + ')';
+  };
+  window.addEventListener('resize', size);
+  size();
+
+  const cols = ['#C98A4B', '#A8501F', '#D9A35E', '#8C3B2E'];
+  leaves.innerHTML = Array.from({ length: 14 }, (_, i) => {
+    const w = 18 + Math.random() * 18;
+    return '<span style="left:' + (Math.random() * 96) + '%;width:' + w + 'px;color:' + cols[i % 4] +
+      ';opacity:' + (0.45 + Math.random() * 0.4) + ';animation-duration:' + (8 + Math.random() * 7) +
+      's;animation-delay:' + (-Math.random() * 14) + 's"><svg viewBox="0 0 40 56"><use href="#leaf"/></svg></span>';
+  }).join('');
+
+  const later = (ms, fn) => setTimeout(fn, reduce ? 0 : ms);
+
+  const open = () => {
+    if (busy) return;
+    busy = true;
+    stage.classList.add('open');
+    later(800, () => stage.classList.add('rise'));
+    later(1600, () => {
+      wrap.hidden = false;
+      size();
+      wrap.classList.add('shown');
+      stage.classList.add('leave');
+      leaves.classList.add('on');
+    });
+    later(2400, () => { stage.hidden = true; });
+  };
+
+  const reset = () => {
+    wrap.classList.remove('shown');
+    wrap.hidden = true;
+    leaves.classList.remove('on');
+    stage.className = 'stage';
+    stage.hidden = false;
+    busy = false;
+    env.focus({ preventScroll: true });
+  };
+
+  env.addEventListener('click', open);
+  again.addEventListener('click', reset);
+}
+</script>
+</body>
+</html>
